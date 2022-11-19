@@ -110,8 +110,6 @@ class Client:
         self.chosen_difficulty = "H"
         self.difficulty_window.destroy()
 
-
-
     def handle_game(self):
         self.server_is_asking = False
         self.buttons = []
@@ -130,7 +128,7 @@ class Client:
         elif self.chosen_difficulty == "H":
             difficulty_text = "HARD"
             difficulty_color = "red"
-        tk.Label(frame, text=difficulty_text, font=('Courier', 20), foreground=difficulty_color, height=4).pack()
+        tk.Label(frame, text=difficulty_text, font=('Courier', 20), foreground=difficulty_color, height=3).pack()
 
 
         button_handlers = [self.handle_b1,

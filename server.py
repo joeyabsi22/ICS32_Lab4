@@ -68,6 +68,7 @@ class Server:
                                         client_connection.send("T".encode())
                                     else:
                                         client_connection.send("C".encode())
+                                    time.sleep(0.01)
                                     win = board.get_win()
                                     win_message = " "
                                     for p in win:
