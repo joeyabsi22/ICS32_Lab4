@@ -31,8 +31,7 @@ class Client:
         self.ip_entry_var = tk.StringVar()
         ip_entry = tk.Entry(self.main_frame, font=('Courier', 20), textvariable=self.ip_entry_var)
         ip_entry.pack()
-        ok_button = tk.Button(self.main_frame, text="OK", font=('Courier', 20), height=4, width=10)
-        ok_button.bind('<Button-1>', self.handle_ip_entry)
+        ok_button = tk.Button(self.main_frame, text="OK", font=('Courier', 20), command=self.handle_ip_entry, height=4, width=10)
         ok_button.pack()
         self.error_label = tk.Label(self.main_frame, text="", foreground="red", height=7)
         self.error_label.pack()
@@ -41,16 +40,16 @@ class Client:
         self.connect_window.mainloop()
 
         if self.ip is None:
-            print("User manually closed IP address entry window.")
+            #print("User manually closed IP address entry window.")
             quit(0)
 
-    def handle_ip_entry(self, event):
+    def handle_ip_entry(self):
         provided_ip = self.ip_entry_var.get()
         error_text = ""
         if not provided_ip:
             error_text = "Please enter an IP address."
         elif self.connect_to_ip(provided_ip):
-            print("Connected to IP address.")
+            #print("Connected to IP address.")
             self.connect_window.destroy()
             self.ip = provided_ip
             return
@@ -62,9 +61,9 @@ class Client:
     def connect_to_ip(self, ip):
         try:
             self.client_socket.connect((ip, self.port))
-            print("Connected.")
+            #print("Connected.")
         except Exception as e:
-            print(e)
+            #print(e)
             return False
         return True
 
@@ -92,7 +91,7 @@ class Client:
         self.difficulty_window.mainloop()
 
         if self.chosen_difficulty is None:
-            print("User manually closed difficulty window.")
+            #print("User manually closed difficulty window.")
             self.client_socket.close()
             quit(0)
         else:
@@ -116,7 +115,7 @@ class Client:
 
         self.window = tk.Tk()
         frame = tk.Frame(self.window)
-        frame.grid(row=0, columnspan=3)
+        frame.grid(row=0, column=1)
         difficulty_text = ""
         difficulty_color = ""
         if self.chosen_difficulty == "E":
@@ -129,6 +128,10 @@ class Client:
             difficulty_text = "HARD"
             difficulty_color = "red"
         tk.Label(frame, text=difficulty_text, font=('Courier', 20), foreground=difficulty_color, height=3).pack()
+
+        frame = tk.Frame(self.window)
+        frame.grid(row=0, column=2)
+        tk.Button(frame, text="QUIT", font=('Courier', 20), height=2, command=self.handle_quit_button).pack()
 
 
         button_handlers = [self.handle_b1,
@@ -253,6 +256,9 @@ class Client:
         self.window.destroy()
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.start()
+
+    def handle_quit_button(self):
+        self.window.destroy()
 
 
 if __name__ == '__main__':
